@@ -1,9 +1,10 @@
 %global tl_name splentinex
 %global tl_revision 77682
+%global tl_version 1.0
 
 Name:		texlive-%{tl_name}
 Epoch:		1
-Version:	1.0
+Version:	%{tl_version}
 Release:	%{tl_revision}.1
 Summary:	Splentinex fonts
 Group:		Publishing
@@ -13,7 +14,8 @@ Source0:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/splentinex.r%{tl
 Source1:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/splentinex.doc.r%{tl_revision}.tar.xz
 BuildArch:	noarch
 BuildSystem:	texlive
-Provides:	texlive(%{tl_name}) = %{tl_revision}
+Requires:	texlive-tlpkg
+Provides:	texlive(%{tl_name}) = %{version}
 
 %description
 This is a serif font family designed for body text. This typeface design
@@ -23,3 +25,10 @@ Splentino, a new digitization of the Plantin design, for inclusion with
 the music software Dorico. Splentinex is a modified repackaging of
 Splentino.
 
+
+%install -a
+mkdir -p %{buildroot}%{_texmf_updmap_d}
+cat > %{buildroot}%{_texmf_updmap_d}/%{tl_name} <<'TL_DROPIN_EOF'
+# from splentinex:
+Map Splentinex.map
+TL_DROPIN_EOF
